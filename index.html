@@ -20,6 +20,7 @@
 		{
 			var html_id = html_id;
 			this.info = { cx: cx,  cy: cy };
+			this.rad = 0;
 
 			//private function that generates a random number
 			var randomNumberBetween = function(min, max){
@@ -42,6 +43,8 @@
 					style: "fill: black"
 				});
 
+				this.rad = circle.r.baseVal.value;
+
 				document.getElementById('svg').appendChild(circle);
 			}
 
@@ -49,11 +52,11 @@
 				var el = document.getElementById(html_id);
 
 				//see if the circle is going outside the browser. if it is, reverse the velocity
-				if( this.info.cx > document.body.clientWidth || this.info.cx < 0)
+				if( this.info.cx > (document.body.clientWidth - this.rad) || this.info.cx < this.rad)
 				{
 					this.info.velocity.x = this.info.velocity.x * -1;
 				}
-				if( this.info.cy > document.body.clientHeight || this.info.cy < 0)
+				if( this.info.cy > (document.body.clientHeight - this.rad) || this.info.cy < this.rad)
 				{
 					this.info.velocity.y = this.info.velocity.y * -1;
 				}
