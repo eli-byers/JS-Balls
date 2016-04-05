@@ -16,7 +16,7 @@
 	<svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
 
 	<script>
-		function Circle(cx, cy, html_id)
+		function Circle(cx, cy, html_id, r)
 		{
 			var html_id = html_id;
 			this.info = { cx: cx,  cy: cy };
@@ -34,11 +34,15 @@
 					y: randomNumberBetween(-3,3)
 				}
 
+				if ( r < 20){
+					r = 20;
+				}
+
 				//create a circle
 				var circle = makeSVG('circle',
 				{ 	cx: this.info.cx,
 					cy: this.info.cy,
-					r:  10,
+					r:  r/10,
 					id: html_id,
 					style: "fill: black"
 				});
@@ -92,21 +96,37 @@
 				}
 			}
 
-			this.createNewCircle = function(x,y){
-				var new_circle = new Circle(x,y,counter++);
+			this.createNewCircle = function(x,y,r){
+				var new_circle = new Circle(x,y,counter++,r);
 				circles.push(new_circle);
 			}
 
 			//create one circle when the game starts
-			this.createNewCircle(document.body.clientWidth/2, document.body.clientHeight/2);
+			this.createNewCircle(document.body.clientWidth/2, document.body.clientHeight/2,100);
 		}
 
 		var playground = new PlayGround();
 		setInterval(playground.loop, 15);
 
-		document.onclick = function(e) {
-			playground.createNewCircle(e.x,e.y);
+
+		var mousedown_time;
+
+		function getTime(){
+			var date = new Date();
+			return date.getTime();
 		}
+
+		document.onmousedown = function(e){
+			mousedown_time = getTime();
+		}
+		document.onmouseup = function(e){
+			time_pressed = getTime() - mousedown_time;
+			playground.createNewCircle(e.x,e.y,time_pressed);
+			//console.log('You held your mouse down for', time_pressed, 'miliseconds.');
+		}
+		// document.onclick = function(e) {
+		//
+		// }
 
 	</script>
 
