@@ -38,13 +38,15 @@
 					r = 20;
 				}
 
+
+
 				//create a circle
 				var circle = makeSVG('circle',
 				{ 	cx: this.info.cx,
 					cy: this.info.cy,
 					r:  r/10,
 					id: html_id,
-					style: "fill: black"
+					style: "fill: "+'#'+Math.floor(Math.random()*16777215).toString(16)
 				});
 
 				this.rad = circle.r.baseVal.value;
@@ -118,15 +120,14 @@
 
 		document.onmousedown = function(e){
 			mousedown_time = getTime();
+
+			// time_pressed = getTime() - mousedown_time;
+			// draw circle with r = time_pressed/10
 		}
 		document.onmouseup = function(e){
 			time_pressed = getTime() - mousedown_time;
 			playground.createNewCircle(e.x,e.y,time_pressed);
-			//console.log('You held your mouse down for', time_pressed, 'miliseconds.');
 		}
-		// document.onclick = function(e) {
-		//
-		// }
 
 	</script>
 
